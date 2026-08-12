@@ -5,7 +5,10 @@ test("landing page renders the value proposition and nav", async ({ page }) => {
   await expect(
     page.getByRole("heading", { name: /how well does your soroban contract/i }),
   ).toBeVisible();
-  await expect(page.getByRole("link", { name: "Leaderboard" })).toBeVisible();
+  // Header nav link (exact match; a page card also links to the leaderboard).
+  await expect(
+    page.getByRole("link", { name: "Leaderboard", exact: true }),
+  ).toBeVisible();
 });
 
 test("leaderboard page lists contracts", async ({ page }) => {
@@ -21,7 +24,11 @@ test("contract report renders grade, timeline and fix list", async ({
   page,
 }) => {
   await page.goto("/contract/demo-sharded-counter");
-  await expect(page.getByText(/Cluster timeline/i)).toBeVisible();
-  await expect(page.getByText(/Hot keys/i)).toBeVisible();
-  await expect(page.getByText(/Fix list/i)).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Cluster timeline" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Hot keys", exact: true }),
+  ).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Fix list" })).toBeVisible();
 });
