@@ -5,6 +5,9 @@
   "description": "Slipstream dashboard: contract contention grades, cluster timelines, hot keys and fix recommendations.",
   "license": "MIT",
   "author": "Slipstream Lab",
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
