@@ -9,7 +9,6 @@ import {
 } from "@/components";
 import { api, isApiConfigured, type Contract } from "@/lib/api";
 import { DEMO_BANNER, DEMO_CONTRACT } from "@/lib/fixtures";
-import { ErrorState } from "@/components/states/ErrorState";
 import { formatCount, formatRatio } from "@/lib/format";
 
 interface PageProps {
@@ -32,17 +31,9 @@ async function load(
 export default async function ContractPage({ params }: PageProps) {
   const { id } = await params;
 
-  let contract: Contract;
-  let isDemo = false;
-  try {
-    ({ contract, isDemo } = await load(id));
-  } catch (e) {
-    return (
-      <ErrorState
-        message={`Could not load contract "${id}": ${(e as Error).message}`}
-      />
-    );
-  }
+  // Errors propagate to the route-level error boundary (error.tsx), which
+  // offers a retry. Only the demo-vs-live decision is made here.
+  const { contract, isDemo } = await load(id);
 
   const stat = (label: string, value: string) => (
     <div className="rounded-lg bg-slate-900/50 p-3 ring-1 ring-slate-800">

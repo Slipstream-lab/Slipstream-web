@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { BarMeter, DemoBanner, EmptyState, GradeBadge } from "@/components";
-import { ErrorState } from "@/components/states/ErrorState";
 import { api, isApiConfigured, type LeaderboardEntry } from "@/lib/api";
 import { DEMO_BANNER, DEMO_LEADERBOARD } from "@/lib/fixtures";
 import { formatRatio } from "@/lib/format";
@@ -11,17 +10,8 @@ async function load(): Promise<{ rows: LeaderboardEntry[]; isDemo: boolean }> {
 }
 
 export default async function LeaderboardPage() {
-  let rows: LeaderboardEntry[];
-  let isDemo = false;
-  try {
-    ({ rows, isDemo } = await load());
-  } catch (e) {
-    return (
-      <ErrorState
-        message={`Could not load leaderboard: ${(e as Error).message}`}
-      />
-    );
-  }
+  // Errors propagate to the route-level error boundary (error.tsx).
+  const { rows, isDemo } = await load();
 
   return (
     <div className="flex flex-col gap-6">
