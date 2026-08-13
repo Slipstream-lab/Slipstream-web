@@ -7,33 +7,20 @@ import {
   GradeBadge,
   HotKeyTable,
 } from "@/components";
-import { api, isApiConfigured, type Contract } from "@/lib/api";
-import { DEMO_BANNER, DEMO_CONTRACT } from "@/lib/fixtures";
+import { loadContract } from "@/lib/data";
+import { DEMO_BANNER } from "@/lib/fixtures";
 import { formatCount, formatRatio } from "@/lib/format";
 
 interface PageProps {
   params: Promise<{ id: string }>;
 }
 
-/**
- * Loads a contract from the API when configured, otherwise returns the demo
- * contract. Returns `{ contract, isDemo }` or throws for the error boundary.
- */
-async function load(
-  id: string,
-): Promise<{ contract: Contract; isDemo: boolean }> {
-  if (!isApiConfigured()) {
-    return { contract: { ...DEMO_CONTRACT, id }, isDemo: true };
-  }
-  return { contract: await api.getContract(id), isDemo: false };
-}
-
 export default async function ContractPage({ params }: PageProps) {
   const { id } = await params;
 
   // Errors propagate to the route-level error boundary (error.tsx), which
-  // offers a retry. Only the demo-vs-live decision is made here.
-  const { contract, isDemo } = await load(id);
+  // offers a retry. The live-vs-demo decision is made in lib/data.ts.
+  const { data: contract, isDemo } = await loadContract(id);
 
   const stat = (label: string, value: string) => (
     <div className="rounded-lg bg-slate-900/50 p-3 ring-1 ring-slate-800">

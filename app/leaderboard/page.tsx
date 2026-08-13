@@ -1,17 +1,12 @@
 import Link from "next/link";
 import { BarMeter, DemoBanner, EmptyState, GradeBadge } from "@/components";
-import { api, isApiConfigured, type LeaderboardEntry } from "@/lib/api";
-import { DEMO_BANNER, DEMO_LEADERBOARD } from "@/lib/fixtures";
+import { loadLeaderboard } from "@/lib/data";
+import { DEMO_BANNER } from "@/lib/fixtures";
 import { formatRatio } from "@/lib/format";
-
-async function load(): Promise<{ rows: LeaderboardEntry[]; isDemo: boolean }> {
-  if (!isApiConfigured()) return { rows: DEMO_LEADERBOARD, isDemo: true };
-  return { rows: await api.getLeaderboard(), isDemo: false };
-}
 
 export default async function LeaderboardPage() {
   // Errors propagate to the route-level error boundary (error.tsx).
-  const { rows, isDemo } = await load();
+  const { data: rows, isDemo } = await loadLeaderboard();
 
   return (
     <div className="flex flex-col gap-6">
