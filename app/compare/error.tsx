@@ -2,7 +2,7 @@
 
 import { ErrorState } from "@/components/states/ErrorState";
 
-export default function ContractError({
+export default function CompareError({
   error,
   reset,
 }: {
@@ -11,7 +11,7 @@ export default function ContractError({
 }) {
   return (
     <ErrorState
-      message={`Could not load the contract: ${error.message}`}
+      message={`Could not load the comparison: ${error.message}`}
       onRetry={reset}
     />
   );
