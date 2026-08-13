@@ -36,5 +36,8 @@ npm run e2e
 - Response types are generated from `openapi/openapi.json` (see
   `npm run generate:api`); when the API contract changes, update the OpenAPI
   document and regenerate rather than hand-editing `lib/api.types.ts`.
+- Grade thresholds in `lib/grade.ts` must match `slipstream-api`'s grade model
+  (`modules/analysis/grade.ts`); `lib/grade.test.ts` pins them and provides the
+  `thresholdsEqual` drift check.
 - Never present demo/fixture data as a real analysis; keep the `DemoBanner`.
 - Conventional commits (`feat:`, `fix:`, `docs:`, `test:`, `chore:`).
