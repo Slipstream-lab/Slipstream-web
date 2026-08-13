@@ -1,0 +1,286 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Slipstream API",
+    "version": "0.1.0",
+    "description": "Contention-analysis API for Stellar / Soroban smart contracts. This document is the single source of truth for the web client's response types; regenerate `lib/api.types.ts` with `npm run generate:api`."
+  },
+  "servers": [{ "url": "{baseUrl}", "variables": { "baseUrl": { "default": "http://localhost:3000" } } }],
+  "paths": {
+    "/contracts/{id}": {
+      "get": {
+        "operationId": "getContract",
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "responses": {
+          "200": {
+            "description": "A contract with its grade and, when available, analysis and profile.",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Contract" } } }
+          }
+        }
+      }
+    },
+    "/analysis/{id}": {
+      "get": {
+        "operationId": "getAnalysis",
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "responses": {
+          "200": {
+            "description": "Static analysis report for a contract.",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/AnalysisReport" } } }
+          }
+        }
+      }
+    },
+    "/leaderboard": {
+      "get": {
+        "operationId": "getLeaderboard",
+        "responses": {
+          "200": {
+            "description": "Contracts ranked by contention score.",
+            "content": {
+              "application/json": {
+                "schema": { "type": "array", "items": { "$ref": "#/components/schemas/LeaderboardEntry" } }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/compare": {
+      "get": {
+        "operationId": "compare",
+        "parameters": [
+          { "name": "left", "in": "query", "required": true, "schema": { "type": "string" } },
+          { "name": "right", "in": "query", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Summary and per-function deltas between two contracts.",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Comparison" } } }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "DetectorName": {
+        "type": "string",
+        "enum": [
+          "global-static-write",
+          "write-in-loop",
+          "read-modify-write",
+          "duplicate-read"
+        ]
+      },
+      "StaticKey": {
+        "type": "object",
+        "required": ["segments"],
+        "properties": {
+          "segments": { "type": "array", "items": { "type": "string" } }
+        },
+        "description": "A static storage key: resolved segments, or [] for a dynamic key."
+      },
+      "DetectorFinding": {
+        "type": "object",
+        "required": ["detector", "function", "key", "message"],
+        "properties": {
+          "detector": { "type": "string" },
+          "function": { "type": ["string", "null"] },
+          "key": { "type": ["string", "null"] },
+          "message": { "type": "string" }
+        }
+      },
+      "FunctionAccess": {
+        "type": "object",
+        "required": ["function_name", "storage_reads", "storage_writes"],
+        "properties": {
+          "function_name": { "type": "string" },
+          "storage_reads": { "type": "array", "items": { "$ref": "#/components/schemas/StaticKey" } },
+          "storage_writes": { "type": "array", "items": { "$ref": "#/components/schemas/StaticKey" } }
+        }
+      },
+      "AnalysisReport": {
+        "type": "object",
+        "required": ["source_name", "functions", "detectors"],
+        "properties": {
+          "source_name": { "type": "string" },
+          "functions": { "type": "array", "items": { "$ref": "#/components/schemas/FunctionAccess" } },
+          "detectors": { "type": "array", "items": { "$ref": "#/components/schemas/DetectorFinding" } }
+        }
+      },
+      "LedgerAccount": {
+        "type": "object",
+        "required": ["account_id"],
+        "properties": { "account_id": { "type": "string" } }
+      },
+      "LedgerTrustLine": {
+        "type": "object",
+        "required": ["account_id", "asset"],
+        "properties": {
+          "account_id": { "type": "string" },
+          "asset": { "type": "string" }
+        }
+      },
+      "LedgerContractData": {
+        "type": "object",
+        "required": ["contract_id", "key"],
+        "properties": {
+          "contract_id": { "type": "string" },
+          "key": { "type": "string" }
+        }
+      },
+      "LedgerContractCode": {
+        "type": "object",
+        "required": ["contract_id"],
+        "properties": { "contract_id": { "type": "string" } }
+      },
+      "LedgerContractTtl": {
+        "type": "object",
+        "required": ["contract_id"],
+        "properties": { "contract_id": { "type": "string" } }
+      },
+      "LedgerKey": {
+        "description": "A ledger key as an externally-tagged enum. Unknown variants fall through to a raw record.",
+        "oneOf": [
+          {
+            "type": "object",
+            "required": ["Account"],
+            "additionalProperties": false,
+            "properties": { "Account": { "$ref": "#/components/schemas/LedgerAccount" } }
+          },
+          {
+            "type": "object",
+            "required": ["TrustLine"],
+            "additionalProperties": false,
+            "properties": { "TrustLine": { "$ref": "#/components/schemas/LedgerTrustLine" } }
+          },
+          {
+            "type": "object",
+            "required": ["ContractData"],
+            "additionalProperties": false,
+            "properties": { "ContractData": { "$ref": "#/components/schemas/LedgerContractData" } }
+          },
+          {
+            "type": "object",
+            "required": ["ContractCode"],
+            "additionalProperties": false,
+            "properties": { "ContractCode": { "$ref": "#/components/schemas/LedgerContractCode" } }
+          },
+          {
+            "type": "object",
+            "required": ["ContractTtl"],
+            "additionalProperties": false,
+            "properties": { "ContractTtl": { "$ref": "#/components/schemas/LedgerContractTtl" } }
+          },
+          {
+            "type": "object",
+            "required": ["Other"],
+            "additionalProperties": false,
+            "properties": { "Other": { "type": "string" } }
+          }
+        ]
+      },
+      "HotKey": {
+        "type": "object",
+        "required": ["key", "reads", "writes", "touch_count"],
+        "properties": {
+          "key": { "$ref": "#/components/schemas/LedgerKey" },
+          "reads": { "type": "integer" },
+          "writes": { "type": "integer" },
+          "touch_count": { "type": "integer" }
+        }
+      },
+      "Cluster": {
+        "type": "object",
+        "required": ["txns"],
+        "properties": {
+          "txns": { "type": "array", "items": { "type": "integer" } }
+        }
+      },
+      "Schedule": {
+        "type": "object",
+        "required": ["stages"],
+        "properties": {
+          "stages": { "type": "array", "items": { "$ref": "#/components/schemas/Cluster" } }
+        }
+      },
+      "ProfileReport": {
+        "type": "object",
+        "required": [
+          "source",
+          "transaction_count",
+          "distinct_keys",
+          "stage_count",
+          "parallelism",
+          "critical_path_length",
+          "weighted_critical_path_weight",
+          "total_conflicts",
+          "hot_keys",
+          "schedule"
+        ],
+        "properties": {
+          "source": { "type": "string" },
+          "transaction_count": { "type": "integer" },
+          "distinct_keys": { "type": "integer" },
+          "stage_count": { "type": "integer" },
+          "parallelism": { "type": "number" },
+          "critical_path_length": { "type": "integer" },
+          "weighted_critical_path_weight": { "type": "integer" },
+          "total_conflicts": { "type": "integer" },
+          "hot_keys": { "type": "array", "items": { "$ref": "#/components/schemas/HotKey" } },
+          "schedule": { "$ref": "#/components/schemas/Schedule" }
+        }
+      },
+      "Grade": {
+        "type": "object",
+        "required": ["score", "letter"],
+        "properties": {
+          "score": { "type": "integer", "minimum": 0, "maximum": 100 },
+          "letter": { "type": "string" }
+        }
+      },
+      "Contract": {
+        "type": "object",
+        "required": ["id", "name", "address", "grade", "analysis", "profile"],
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "address": { "type": ["string", "null"] },
+          "grade": { "oneOf": [{ "$ref": "#/components/schemas/Grade" }, { "type": "null" }] },
+          "analysis": { "oneOf": [{ "$ref": "#/components/schemas/AnalysisReport" }, { "type": "null" }] },
+          "profile": { "oneOf": [{ "$ref": "#/components/schemas/ProfileReport" }, { "type": "null" }] }
+        }
+      },
+      "LeaderboardEntry": {
+        "type": "object",
+        "required": ["contractId", "name", "score", "parallelism", "rank"],
+        "properties": {
+          "contractId": { "type": "string" },
+          "name": { "type": "string" },
+          "score": { "type": "number" },
+          "parallelism": { "type": "number" },
+          "rank": { "type": "integer" }
+        }
+      },
+      "ComparisonSummary": {
+        "type": "object",
+        "required": ["detector_findings_delta", "storage_reads_delta", "storage_writes_delta"],
+        "properties": {
+          "detector_findings_delta": { "type": "integer" },
+          "storage_reads_delta": { "type": "integer" },
+          "storage_writes_delta": { "type": "integer" }
+        }
+      },
+      "Comparison": {
+        "type": "object",
+        "required": ["leftId", "rightId", "summary"],
+        "properties": {
+          "leftId": { "type": "string" },
+          "rightId": { "type": "string" },
+          "summary": { "$ref": "#/components/schemas/ComparisonSummary" }
+        }
+      }
+    }
+  }
+}
