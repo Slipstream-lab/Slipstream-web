@@ -14,7 +14,7 @@ export function StageWidth({ schedule }: StageWidthProps) {
   const stages = schedule?.stages ?? [];
   if (stages.length === 0) {
     return (
-      <p className="text-sm text-slate-400">
+      <p className="text-sm text-slate-600 dark:text-slate-400">
         No schedule to display (empty transaction set).
       </p>
     );

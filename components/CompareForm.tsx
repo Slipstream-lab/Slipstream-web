@@ -12,7 +12,7 @@ type Status =
   | { state: "error"; message: string };
 
 const inputClass =
-  "rounded bg-slate-900 px-3 py-2 font-mono text-sm text-slate-100 ring-1 ring-slate-700 focus:outline-none focus:ring-sky-500";
+  "rounded bg-white px-3 py-2 font-mono text-sm text-slate-900 ring-1 ring-slate-300 focus:outline-none focus:ring-sky-500 dark:bg-slate-900 dark:text-slate-100 dark:ring-slate-700";
 
 /** Form that diffs two contracts via `api.compare` and renders the deltas. */
 export function CompareForm() {
@@ -52,7 +52,7 @@ export function CompareForm() {
         onSubmit={onSubmit}
         className="flex flex-col gap-3 sm:flex-row sm:items-end"
       >
-        <label className="flex flex-1 flex-col gap-1 text-sm text-slate-300">
+        <label className="flex flex-1 flex-col gap-1 text-sm text-slate-700 dark:text-slate-300">
           Baseline contract id
           <input
             value={leftId}
@@ -61,7 +61,7 @@ export function CompareForm() {
             className={inputClass}
           />
         </label>
-        <label className="flex flex-1 flex-col gap-1 text-sm text-slate-300">
+        <label className="flex flex-1 flex-col gap-1 text-sm text-slate-700 dark:text-slate-300">
           Candidate contract id
           <input
             value={rightId}

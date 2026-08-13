@@ -28,7 +28,7 @@ export function ClusterTimeline({
 
   if (stages.length === 0) {
     return (
-      <p className="text-sm text-slate-400">
+      <p className="text-sm text-slate-600 dark:text-slate-400">
         No schedule to display (empty transaction set).
       </p>
     );
@@ -49,7 +49,7 @@ export function ClusterTimeline({
     <div className="flex flex-col gap-2" aria-label="Cluster timeline">
       {stages.map((stage, i) => (
         <div key={i} className="flex items-center gap-3">
-          <span className="w-16 shrink-0 text-right text-xs font-medium text-slate-400">
+          <span className="w-16 shrink-0 text-right text-xs font-medium text-slate-600 dark:text-slate-400">
             stage {i}
           </span>
           <div className="flex flex-1 flex-wrap gap-1">
@@ -71,8 +71,8 @@ export function ClusterTimeline({
                     isHighlighted
                       ? "bg-sky-500/40 text-white ring-sky-400"
                       : isDimmed
-                        ? "bg-slate-800/40 text-slate-500 ring-slate-700/40"
-                        : "bg-sky-500/20 text-sky-200 ring-sky-500/30 hover:bg-sky-500/40"
+                        ? "bg-slate-200 text-slate-400 ring-slate-300/40 dark:bg-slate-800/40 dark:text-slate-500 dark:ring-slate-700/40"
+                        : "bg-sky-500/20 text-sky-700 ring-sky-500/30 hover:bg-sky-500/40 dark:text-sky-200"
                   }`}
                 >
                   {txn}
@@ -86,7 +86,7 @@ export function ClusterTimeline({
         </div>
       ))}
 
-      <p aria-live="polite" className="min-h-4 text-xs text-slate-400">
+      <p aria-live="polite" className="min-h-4 text-xs text-slate-600 dark:text-slate-400">
         {highlighted !== null && highlightedStage !== null ? (
           <>
             transaction {highlighted} · stage {highlightedStage}

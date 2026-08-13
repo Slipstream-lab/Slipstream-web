@@ -1,10 +1,22 @@
 @import "tailwindcss";
 
+/* Class-based dark mode: a `.dark` ancestor on <html> switches the theme. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
+  color-scheme: light;
+}
+
+.dark {
   color-scheme: dark;
 }
 
 body {
-  background-color: #020617;
-  color: #e2e8f0;
+  background-color: #f8fafc; /* slate-50 */
+  color: #0f172a; /* slate-900 */
+}
+
+.dark body {
+  background-color: #020617; /* slate-950 */
+  color: #e2e8f0; /* slate-200 */
 }

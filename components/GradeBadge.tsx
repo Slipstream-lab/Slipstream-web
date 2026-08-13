@@ -1,11 +1,14 @@
 import { scoreToGrade, type GradeView } from "@/lib/grade";
 
 const TONE_CLASSES: Record<GradeView["tone"], string> = {
-  green: "bg-emerald-500/15 text-emerald-300 ring-emerald-500/30",
-  lime: "bg-lime-500/15 text-lime-300 ring-lime-500/30",
-  amber: "bg-amber-500/15 text-amber-300 ring-amber-500/30",
-  orange: "bg-orange-500/15 text-orange-300 ring-orange-500/30",
-  red: "bg-red-500/15 text-red-300 ring-red-500/30",
+  green:
+    "bg-emerald-500/10 text-emerald-700 ring-emerald-600/30 dark:bg-emerald-500/15 dark:text-emerald-300 dark:ring-emerald-500/30",
+  lime: "bg-lime-500/10 text-lime-700 ring-lime-600/30 dark:bg-lime-500/15 dark:text-lime-300 dark:ring-lime-500/30",
+  amber:
+    "bg-amber-500/10 text-amber-700 ring-amber-600/30 dark:bg-amber-500/15 dark:text-amber-300 dark:ring-amber-500/30",
+  orange:
+    "bg-orange-500/10 text-orange-700 ring-orange-600/30 dark:bg-orange-500/15 dark:text-orange-300 dark:ring-orange-500/30",
+  red: "bg-red-500/10 text-red-700 ring-red-600/30 dark:bg-red-500/15 dark:text-red-300 dark:ring-red-500/30",
 };
 
 export interface GradeBadgeProps {
@@ -39,11 +42,15 @@ export function GradeBadge({
       </span>
       {showScore && (
         <span className="flex flex-col leading-tight">
-          <span className="text-xl font-semibold text-slate-100">
+          <span className="text-xl font-semibold text-slate-900 dark:text-slate-100">
             {Math.round(score)}
-            <span className="text-sm text-slate-400">/100</span>
+            <span className="text-sm text-slate-500 dark:text-slate-400">
+              /100
+            </span>
           </span>
-          <span className="text-xs text-slate-400">{grade.label}</span>
+          <span className="text-xs text-slate-500 dark:text-slate-400">
+            {grade.label}
+          </span>
         </span>
       )}
     </div>

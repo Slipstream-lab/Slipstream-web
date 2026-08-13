@@ -25,9 +25,11 @@ export default async function ContractPage({ params }: PageProps) {
   const { data: contract, isDemo } = await loadContract(id);
 
   const stat = (label: string, value: string) => (
-    <div className="rounded-lg bg-slate-900/50 p-3 ring-1 ring-slate-800">
+    <div className="rounded-lg bg-white p-3 ring-1 ring-slate-200 dark:bg-slate-900/50 dark:ring-slate-800">
       <div className="text-xs text-slate-500">{label}</div>
-      <div className="text-lg font-semibold text-slate-100">{value}</div>
+      <div className="text-lg font-semibold text-slate-900 dark:text-slate-100">
+        {value}
+      </div>
     </div>
   );
 
@@ -37,7 +39,9 @@ export default async function ContractPage({ params }: PageProps) {
 
       <header className="flex items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-slate-100">{contract.name}</h1>
+          <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100">
+            {contract.name}
+          </h1>
           {contract.address && (
             <p className="font-mono text-xs text-slate-500">
               {contract.address}
@@ -64,7 +68,7 @@ export default async function ContractPage({ params }: PageProps) {
       )}
 
       <section>
-        <h2 className="mb-3 text-lg font-semibold text-slate-100">
+        <h2 className="mb-3 text-lg font-semibold text-slate-900 dark:text-slate-100">
           Cluster timeline
         </h2>
         {contract.profile ? (
@@ -81,7 +85,9 @@ export default async function ContractPage({ params }: PageProps) {
       </section>
 
       <section>
-        <h2 className="mb-3 text-lg font-semibold text-slate-100">Hot keys</h2>
+        <h2 className="mb-3 text-lg font-semibold text-slate-900 dark:text-slate-100">
+          Hot keys
+        </h2>
         {contract.profile ? (
           <div className="flex flex-col gap-6">
             <ContentionDistribution hotKeys={contract.profile.hot_keys} />
@@ -93,7 +99,9 @@ export default async function ContractPage({ params }: PageProps) {
       </section>
 
       <section>
-        <h2 className="mb-3 text-lg font-semibold text-slate-100">Fix list</h2>
+        <h2 className="mb-3 text-lg font-semibold text-slate-900 dark:text-slate-100">
+          Fix list
+        </h2>
         {contract.analysis ? (
           <FixList findings={contract.analysis.detectors} />
         ) : (
@@ -103,7 +111,7 @@ export default async function ContractPage({ params }: PageProps) {
 
       <Link
         href="/leaderboard"
-        className="text-sm text-sky-400 hover:text-sky-300"
+        className="text-sm text-sky-600 hover:text-sky-700 dark:text-sky-400 dark:hover:text-sky-300"
       >
         ← Back to leaderboard
       </Link>
