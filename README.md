@@ -71,8 +71,16 @@ The client throws `ApiError` on failure and never substitutes fake data.
 | `npm run lint`   | ESLint (next/core-web-vitals)                               |
 | `npm test`       | Vitest unit tests                                           |
 | `npm run generate:api` | Regenerate `lib/api.types.ts` from `openapi/openapi.json` |
-| `npm run e2e`    | Playwright E2E (requires `npx playwright install chromium`) |
+| `npm run e2e`    | Playwright E2E against a mocked API (see below) |
 | `npm run format` | Prettier                                                    |
+
+## E2E (mocked API)
+
+`npm run e2e` builds the app with `NEXT_PUBLIC_API_BASE_URL` pointed at a small
+mock API (`e2e/mock-api.mjs`, started by `playwright.config.ts`) and runs
+Playwright against it. No real backend is required; the contract report,
+leaderboard and compare flows all render deterministic, live-shaped data.
+Requires `npx playwright install chromium` first.
 
 ## Demo data
 
