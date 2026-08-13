@@ -1,11 +1,13 @@
 import Link from "next/link";
 import {
   ClusterTimeline,
+  ContentionDistribution,
   DemoBanner,
   EmptyState,
   FixList,
   GradeBadge,
   HotKeyTable,
+  StageWidth,
 } from "@/components";
 import { loadContract } from "@/lib/data";
 import { DEMO_BANNER } from "@/lib/fixtures";
@@ -66,7 +68,10 @@ export default async function ContractPage({ params }: PageProps) {
           Cluster timeline
         </h2>
         {contract.profile ? (
-          <ClusterTimeline schedule={contract.profile.schedule} />
+          <div className="flex flex-col gap-6">
+            <ClusterTimeline schedule={contract.profile.schedule} />
+            <StageWidth schedule={contract.profile.schedule} />
+          </div>
         ) : (
           <EmptyState
             title="No profile yet"
@@ -78,7 +83,10 @@ export default async function ContractPage({ params }: PageProps) {
       <section>
         <h2 className="mb-3 text-lg font-semibold text-slate-100">Hot keys</h2>
         {contract.profile ? (
-          <HotKeyTable hotKeys={contract.profile.hot_keys} />
+          <div className="flex flex-col gap-6">
+            <ContentionDistribution hotKeys={contract.profile.hot_keys} />
+            <HotKeyTable hotKeys={contract.profile.hot_keys} />
+          </div>
         ) : (
           <EmptyState title="No hot keys yet" />
         )}
