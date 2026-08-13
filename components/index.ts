@@ -6,6 +6,8 @@ export { BarMeter } from "./Charts/BarMeter";
 export { ContentionDistribution } from "./Charts/ContentionDistribution";
 export { StageWidth } from "./Charts/StageWidth";
 export { DemoBanner } from "./DemoBanner";
+export { CompareForm } from "./CompareForm";
+export { ComparisonResult } from "./ComparisonResult";
 export { Loading, Skeleton } from "./states/Loading";
 export { ErrorState } from "./states/ErrorState";
 export { EmptyState } from "./states/EmptyState";

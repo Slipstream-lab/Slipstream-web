@@ -272,13 +272,32 @@
           "storage_writes_delta": { "type": "integer" }
         }
       },
+      "ComparisonFunctionDelta": {
+        "type": "object",
+        "required": [
+          "function_name",
+          "detector_findings_delta",
+          "storage_reads_delta",
+          "storage_writes_delta"
+        ],
+        "properties": {
+          "function_name": { "type": "string" },
+          "detector_findings_delta": { "type": "integer" },
+          "storage_reads_delta": { "type": "integer" },
+          "storage_writes_delta": { "type": "integer" }
+        }
+      },
       "Comparison": {
         "type": "object",
-        "required": ["leftId", "rightId", "summary"],
+        "required": ["leftId", "rightId", "summary", "functions"],
         "properties": {
           "leftId": { "type": "string" },
           "rightId": { "type": "string" },
-          "summary": { "$ref": "#/components/schemas/ComparisonSummary" }
+          "summary": { "$ref": "#/components/schemas/ComparisonSummary" },
+          "functions": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/ComparisonFunctionDelta" }
+          }
         }
       }
     }

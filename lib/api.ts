@@ -26,6 +26,8 @@ export type Grade = components["schemas"]["Grade"];
 export type Contract = components["schemas"]["Contract"];
 export type LeaderboardEntry = components["schemas"]["LeaderboardEntry"];
 export type ComparisonSummary = components["schemas"]["ComparisonSummary"];
+export type ComparisonFunctionDelta =
+  components["schemas"]["ComparisonFunctionDelta"];
 export type Comparison = components["schemas"]["Comparison"];
 
 // --- Known detector names (runtime constant, mirrors the OpenAPI enum) -------
