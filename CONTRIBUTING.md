@@ -33,7 +33,8 @@ npm run e2e
 
 - **TypeScript strict**; no `any` without justification.
 - Keep `lib/` pure and unit-tested (`grade.ts`, `format.ts`).
-- Response types in `lib/api.ts` mirror the `slipstream-core` / `slipstream-api`
-  JSON contract — do not diverge silently.
+- Response types are generated from `openapi/openapi.json` (see
+  `npm run generate:api`); when the API contract changes, update the OpenAPI
+  document and regenerate rather than hand-editing `lib/api.types.ts`.
 - Never present demo/fixture data as a real analysis; keep the `DemoBanner`.
 - Conventional commits (`feat:`, `fix:`, `docs:`, `test:`, `chore:`).

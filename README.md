@@ -50,8 +50,10 @@ e2e/                 # Playwright specs
 
 ## How it consumes `slipstream-api`
 
-`lib/api.ts` is the single integration point. Its response types mirror the
-`slipstream-core` JSON contract exactly as surfaced by the API:
+`lib/api.ts` is the single integration point. Its response types are generated
+from the API's OpenAPI document (`openapi/openapi.json`) into
+`lib/api.types.ts` — run `npm run generate:api` after the API contract changes.
+They mirror the `slipstream-core` JSON contract exactly as surfaced by the API:
 
 - `AnalysisReport` — from `slipstream scan --json` (`source_name`, `StaticKey`
   segment lists, nullable detector `function`/`key`).
@@ -68,6 +70,7 @@ The client throws `ApiError` on failure and never substitutes fake data.
 | `npm run build`  | Production build                                            |
 | `npm run lint`   | ESLint (next/core-web-vitals)                               |
 | `npm test`       | Vitest unit tests                                           |
+| `npm run generate:api` | Regenerate `lib/api.types.ts` from `openapi/openapi.json` |
 | `npm run e2e`    | Playwright E2E (requires `npx playwright install chromium`) |
 | `npm run format` | Prettier                                                    |
 

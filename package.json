@@ -15,6 +15,7 @@
     "lint": "next lint",
     "test": "vitest run",
     "test:watch": "vitest",
+    "generate:api": "openapi-typescript openapi/openapi.json -o lib/api.types.ts",
     "e2e": "playwright test",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
@@ -25,9 +26,9 @@
     "react-dom": "19.2.8"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "3.3.1",
     "@playwright/test": "1.62.1",
     "@tailwindcss/postcss": "4.3.3",
-    "@eslint/eslintrc": "3.3.1",
     "@testing-library/dom": "10.4.0",
     "@testing-library/jest-dom": "7.0.1",
     "@testing-library/react": "16.3.2",
@@ -38,6 +39,7 @@
     "eslint": "9.39.5",
     "eslint-config-next": "15.5.23",
     "jsdom": "30.0.1",
+    "openapi-typescript": "^7.13.0",
     "postcss": "8.5.26",
     "prettier": "3.6.2",
     "tailwindcss": "4.3.3",

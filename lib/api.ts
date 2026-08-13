@@ -1,135 +1,43 @@
 /**
  * Typed client for the Slipstream API (`slipstream-api`, NestJS).
  *
- * The response types mirror the `slipstream-core` JSON contract exactly, as
- * surfaced by the API:
- *   - static analysis:  `AnalysisReport` (from `slipstream scan --json`)
- *   - dynamic profiling: `ProfileReport` (from `slipstream profile --json`)
- *
- * Note the fidelity details that come straight from the engine:
- *   - a static storage key is a `StaticKey` (`{ segments: string[] }`); an empty
- *     segment list is the engine's "dynamic" marker.
- *   - a profiled hot key's `key` is a structured `LedgerKey` enum object.
- *   - detector `function`/`key` are nullable.
+ * Response types are generated from the API's OpenAPI document
+ * (`openapi/openapi.json`) into `lib/api.types.ts`; regenerate with
+ * `npm run generate:api`. Do not hand-edit the generated file.
  *
  * The client never fabricates data on failure — it throws {@link ApiError}.
  */
 
-// --- slipstream-core: static analysis (`scan`) ------------------------------
+import type { components } from "./api.types";
+
+// --- Generated response types (aliased for ergonomic imports) ---------------
+
+export type DetectorName = components["schemas"]["DetectorName"];
+export type StaticKey = components["schemas"]["StaticKey"];
+export type DetectorFinding = components["schemas"]["DetectorFinding"];
+export type FunctionAccess = components["schemas"]["FunctionAccess"];
+export type AnalysisReport = components["schemas"]["AnalysisReport"];
+export type LedgerKey = components["schemas"]["LedgerKey"];
+export type HotKey = components["schemas"]["HotKey"];
+export type Cluster = components["schemas"]["Cluster"];
+export type Schedule = components["schemas"]["Schedule"];
+export type ProfileReport = components["schemas"]["ProfileReport"];
+export type Grade = components["schemas"]["Grade"];
+export type Contract = components["schemas"]["Contract"];
+export type LeaderboardEntry = components["schemas"]["LeaderboardEntry"];
+export type ComparisonSummary = components["schemas"]["ComparisonSummary"];
+export type Comparison = components["schemas"]["Comparison"];
+
+// --- Known detector names (runtime constant, mirrors the OpenAPI enum) -------
 
 export const DETECTOR_NAMES = [
   "global-static-write",
   "write-in-loop",
   "read-modify-write",
   "duplicate-read",
-] as const;
+] as const satisfies readonly DetectorName[];
 
-export type DetectorName = (typeof DETECTOR_NAMES)[number];
-
-/** A static storage key: resolved segments, or `[]` for a dynamic key. */
-export interface StaticKey {
-  segments: string[];
-}
-
-export interface DetectorFinding {
-  detector: string;
-  function: string | null;
-  key: string | null;
-  message: string;
-}
-
-export interface FunctionAccess {
-  function_name: string;
-  storage_reads: StaticKey[];
-  storage_writes: StaticKey[];
-}
-
-export interface AnalysisReport {
-  source_name: string;
-  functions: FunctionAccess[];
-  detectors: DetectorFinding[];
-}
-
-// --- slipstream-core: dynamic profiling (`profile`) -------------------------
-
-/**
- * A ledger key as serialized by the engine: an externally-tagged enum. Only the
- * variants the UI needs to render are enumerated; unknown variants fall through
- * to a raw record.
- */
-export type LedgerKey =
-  | { Account: { account_id: string } }
-  | { TrustLine: { account_id: string; asset: string } }
-  | { ContractData: { contract_id: string; key: string } }
-  | { ContractCode: { contract_id: string } }
-  | { ContractTtl: { contract_id: string } }
-  | { Other: string }
-  | Record<string, unknown>;
-
-export interface HotKey {
-  key: LedgerKey;
-  reads: number;
-  writes: number;
-  touch_count: number;
-}
-
-export interface Cluster {
-  txns: number[];
-}
-
-export interface Schedule {
-  stages: Cluster[];
-}
-
-export interface ProfileReport {
-  source: string;
-  transaction_count: number;
-  distinct_keys: number;
-  stage_count: number;
-  parallelism: number;
-  critical_path_length: number;
-  weighted_critical_path_weight: number;
-  total_conflicts: number;
-  hot_keys: HotKey[];
-  schedule: Schedule;
-}
-
-// --- API resources ----------------------------------------------------------
-
-/** A contract's current grade, as computed and stored by the API. */
-export interface Grade {
-  score: number; // 0-100
-  letter: string; // A-F
-}
-
-export interface Contract {
-  id: string;
-  name: string;
-  address: string | null;
-  grade: Grade | null;
-  analysis: AnalysisReport | null;
-  profile: ProfileReport | null;
-}
-
-export interface LeaderboardEntry {
-  contractId: string;
-  name: string;
-  score: number;
-  parallelism: number;
-  rank: number;
-}
-
-export interface ComparisonSummary {
-  detector_findings_delta: number;
-  storage_reads_delta: number;
-  storage_writes_delta: number;
-}
-
-export interface Comparison {
-  leftId: string;
-  rightId: string;
-  summary: ComparisonSummary;
-}
+// --- API client -------------------------------------------------------------
 
 /** Error thrown by the API client. Never resolves to fake data on failure. */
 export class ApiError extends Error {
