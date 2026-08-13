@@ -7,13 +7,13 @@ import type { Comparison, ComparisonSummary } from "@/lib/api";
  */
 function Delta({ value }: { value: number }) {
   if (value === 0) {
-    return <span className="font-mono text-slate-400">no change</span>;
+    return <span className="font-mono text-slate-500 dark:text-slate-400">no change</span>;
   }
   const lower = value < 0;
   const word = lower ? "fewer" : "more";
   return (
     <span
-      className={`font-mono ${lower ? "text-emerald-400" : "text-red-400"}`}
+      className={`font-mono ${lower ? "text-emerald-600 dark:text-emerald-400" : "text-red-600 dark:text-red-400"}`}
       title={`${Math.abs(value)} ${word} than baseline`}
     >
       {lower ? "↓" : "↑"} {Math.abs(value)} {word}
@@ -38,14 +38,14 @@ export function ComparisonResult({ comparison }: ComparisonResultProps) {
   return (
     <div className="flex flex-col gap-6">
       <section>
-        <h2 className="mb-3 text-lg font-semibold text-slate-100">
+        <h2 className="mb-3 text-lg font-semibold text-slate-900 dark:text-slate-100">
           Summary deltas
         </h2>
         <dl className="grid gap-3 sm:grid-cols-3">
           {SUMMARY_ROWS.map(({ key, label }) => (
             <div
               key={key}
-              className="rounded-lg bg-slate-900/50 p-4 ring-1 ring-slate-800"
+              className="rounded-lg bg-white p-4 ring-1 ring-slate-200 dark:bg-slate-900/50 dark:ring-slate-800"
             >
               <dt className="text-xs text-slate-500">{label}</dt>
               <dd className="mt-1 text-sm">
@@ -57,17 +57,17 @@ export function ComparisonResult({ comparison }: ComparisonResultProps) {
       </section>
 
       <section>
-        <h2 className="mb-3 text-lg font-semibold text-slate-100">
+        <h2 className="mb-3 text-lg font-semibold text-slate-900 dark:text-slate-100">
           Per-function deltas
         </h2>
         {functions.length === 0 ? (
-          <p className="text-sm text-slate-400">
+          <p className="text-sm text-slate-600 dark:text-slate-400">
             No per-function deltas returned by the API.
           </p>
         ) : (
-          <div className="overflow-x-auto rounded-lg ring-1 ring-slate-800">
+          <div className="overflow-x-auto rounded-lg ring-1 ring-slate-200 dark:ring-slate-800">
             <table className="w-full text-sm">
-              <thead className="bg-slate-900/60 text-slate-300">
+              <thead className="bg-slate-100 text-slate-700 dark:bg-slate-900/60 dark:text-slate-300">
                 <tr>
                   <th className="px-3 py-2 text-left font-medium">Function</th>
                   <th className="px-3 py-2 text-right font-medium">Findings</th>
@@ -79,9 +79,9 @@ export function ComparisonResult({ comparison }: ComparisonResultProps) {
                 {functions.map((fn) => (
                   <tr
                     key={fn.function_name}
-                    className="border-t border-slate-800/70"
+                    className="border-t border-slate-200/70 dark:border-slate-800/70"
                   >
-                    <td className="px-3 py-2 font-mono text-xs text-slate-200">
+                    <td className="px-3 py-2 font-mono text-xs text-slate-800 dark:text-slate-200">
                       {fn.function_name}
                     </td>
                     <td className="px-3 py-2 text-right">

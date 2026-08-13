@@ -16,7 +16,9 @@ export function ContentionDistribution({
 }: ContentionDistributionProps) {
   if (hotKeys.length === 0) {
     return (
-      <p className="text-sm text-slate-400">No hot keys in this profile.</p>
+      <p className="text-sm text-slate-600 dark:text-slate-400">
+        No hot keys in this profile.
+      </p>
     );
   }
 

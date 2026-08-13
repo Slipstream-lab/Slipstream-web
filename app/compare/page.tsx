@@ -17,8 +17,10 @@ export default function ComparePage() {
   return (
     <div className="flex flex-col gap-6">
       {!live && <DemoBanner message={DEMO_BANNER} />}
-      <h1 className="text-2xl font-bold text-slate-100">Compare</h1>
-      <p className="text-sm text-slate-400">
+      <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100">
+        Compare
+      </h1>
+      <p className="text-sm text-slate-600 dark:text-slate-400">
         Diff a naive implementation against an optimized one. Lower contention
         and fewer detector findings on the right indicate an improvement.
       </p>
@@ -28,29 +30,29 @@ export default function ComparePage() {
       ) : (
         <>
           <div className="grid gap-4 sm:grid-cols-2">
-            <div className="rounded-xl bg-slate-900/50 p-4 ring-1 ring-slate-800">
+            <div className="rounded-xl bg-white p-4 ring-1 ring-slate-200 dark:bg-slate-900/50 dark:ring-slate-800">
               <div className="text-xs text-slate-500">Left (baseline)</div>
-              <div className="text-lg font-semibold text-slate-100">
+              <div className="text-lg font-semibold text-slate-900 dark:text-slate-100">
                 {left.name}
               </div>
-              <div className="mt-1 text-sm text-slate-400">
+              <div className="mt-1 text-sm text-slate-600 dark:text-slate-400">
                 score {left.grade?.score ?? "—"} · parallelism{" "}
                 {left.profile?.parallelism ?? "—"}
               </div>
             </div>
-            <div className="rounded-xl bg-slate-900/50 p-4 ring-1 ring-slate-800">
+            <div className="rounded-xl bg-white p-4 ring-1 ring-slate-200 dark:bg-slate-900/50 dark:ring-slate-800">
               <div className="text-xs text-slate-500">Right (candidate)</div>
-              <div className="text-lg font-semibold text-slate-100">
+              <div className="text-lg font-semibold text-slate-900 dark:text-slate-100">
                 {right.name}
               </div>
-              <div className="mt-1 text-sm text-slate-400">
+              <div className="mt-1 text-sm text-slate-600 dark:text-slate-400">
                 score {right.score} · parallelism {right.parallelism}
               </div>
             </div>
           </div>
 
           <section>
-            <h2 className="mb-3 text-lg font-semibold text-slate-100">
+            <h2 className="mb-3 text-lg font-semibold text-slate-900 dark:text-slate-100">
               Score comparison
             </h2>
             <BarMeter
@@ -63,7 +65,7 @@ export default function ComparePage() {
             />
           </section>
 
-          <p className="text-xs text-slate-600">
+          <p className="text-xs text-slate-500 dark:text-slate-600">
             Live deltas (detector findings, storage reads/writes) come from the
             API&apos;s /compare endpoint once configured.
           </p>

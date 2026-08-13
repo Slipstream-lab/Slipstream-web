@@ -29,18 +29,18 @@ export function BarMeter({ data, title, max }: BarMeterProps) {
         return (
           <div key={d.label} className="flex items-center gap-3 text-sm">
             <span
-              className="w-32 shrink-0 truncate text-slate-300"
+              className="w-32 shrink-0 truncate text-slate-700 dark:text-slate-300"
               title={d.label}
             >
               {d.label}
             </span>
-            <div className="h-3 flex-1 overflow-hidden rounded-full bg-slate-800">
+            <div className="h-3 flex-1 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800">
               <div
                 className="h-full rounded-full bg-sky-500"
                 style={{ width: `${Math.max(pct, 2)}%` }}
               />
             </div>
-            <span className="w-16 shrink-0 text-right font-mono text-xs text-slate-400">
+            <span className="w-16 shrink-0 text-right font-mono text-xs text-slate-500 dark:text-slate-400">
               {d.caption ?? d.value}
             </span>
           </div>

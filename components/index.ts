@@ -11,3 +11,4 @@ export { ComparisonResult } from "./ComparisonResult";
 export { Loading, Skeleton } from "./states/Loading";
 export { ErrorState } from "./states/ErrorState";
 export { EmptyState } from "./states/EmptyState";
+export { ThemeToggle } from "./ThemeToggle";

@@ -11,8 +11,10 @@ export default async function LeaderboardPage() {
   return (
     <div className="flex flex-col gap-6">
       {isDemo && <DemoBanner message={DEMO_BANNER} />}
-      <h1 className="text-2xl font-bold text-slate-100">Leaderboard</h1>
-      <p className="text-sm text-slate-400">
+      <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100">
+        Leaderboard
+      </h1>
+      <p className="text-sm text-slate-600 dark:text-slate-400">
         Contracts ranked by contention score (higher is better parallelism).
       </p>
 
@@ -29,9 +31,9 @@ export default async function LeaderboardPage() {
               caption: `${r.score}`,
             }))}
           />
-          <div className="overflow-x-auto rounded-lg ring-1 ring-slate-800">
+          <div className="overflow-x-auto rounded-lg ring-1 ring-slate-200 dark:ring-slate-800">
             <table className="w-full text-sm">
-              <thead className="bg-slate-900/60 text-slate-300">
+              <thead className="bg-slate-100 text-slate-700 dark:bg-slate-900/60 dark:text-slate-300">
                 <tr>
                   <th className="px-3 py-2 text-left font-medium">#</th>
                   <th className="px-3 py-2 text-left font-medium">Contract</th>
@@ -45,18 +47,20 @@ export default async function LeaderboardPage() {
                 {rows.map((r) => (
                   <tr
                     key={r.contractId}
-                    className="border-t border-slate-800/70"
+                    className="border-t border-slate-200/70 dark:border-slate-800/70"
                   >
-                    <td className="px-3 py-2 text-slate-400">{r.rank}</td>
+                    <td className="px-3 py-2 text-slate-500 dark:text-slate-400">
+                      {r.rank}
+                    </td>
                     <td className="px-3 py-2">
                       <Link
                         href={`/contract/${encodeURIComponent(r.contractId)}`}
-                        className="text-sky-400 hover:text-sky-300"
+                        className="text-sky-600 hover:text-sky-700 dark:text-sky-400 dark:hover:text-sky-300"
                       >
                         {r.name}
                       </Link>
                     </td>
-                    <td className="px-3 py-2 text-right text-slate-300">
+                    <td className="px-3 py-2 text-right text-slate-700 dark:text-slate-300">
                       {formatRatio(r.parallelism)}
                     </td>
                     <td className="px-3 py-2 text-right">

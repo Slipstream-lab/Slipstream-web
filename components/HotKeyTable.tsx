@@ -21,7 +21,9 @@ export function HotKeyTable({ hotKeys }: HotKeyTableProps) {
 
   if (hotKeys.length === 0) {
     return (
-      <p className="text-sm text-slate-400">No hot keys in this profile.</p>
+      <p className="text-sm text-slate-600 dark:text-slate-400">
+        No hot keys in this profile.
+      </p>
     );
   }
 
@@ -33,8 +35,10 @@ export function HotKeyTable({ hotKeys }: HotKeyTableProps) {
       <button
         type="button"
         onClick={() => setSortBy(key)}
-        className={`inline-flex items-center gap-1 hover:text-slate-100 ${
-          sortBy === key ? "text-slate-100" : "text-slate-400"
+        className={`inline-flex items-center gap-1 hover:text-slate-900 dark:hover:text-slate-100 ${
+          sortBy === key
+            ? "text-slate-900 dark:text-slate-100"
+            : "text-slate-500 dark:text-slate-400"
         }`}
       >
         {label}
@@ -44,9 +48,9 @@ export function HotKeyTable({ hotKeys }: HotKeyTableProps) {
   );
 
   return (
-    <div className="overflow-x-auto rounded-lg ring-1 ring-slate-800">
+    <div className="overflow-x-auto rounded-lg ring-1 ring-slate-200 dark:ring-slate-800">
       <table className="w-full text-sm">
-        <thead className="bg-slate-900/60 text-slate-300">
+        <thead className="bg-slate-100 text-slate-700 dark:bg-slate-900/60 dark:text-slate-300">
           <tr>
             <th className="px-3 py-2 text-left font-medium">Ledger key</th>
             {header("Reads", "reads")}
@@ -58,18 +62,18 @@ export function HotKeyTable({ hotKeys }: HotKeyTableProps) {
           {rows.map((hk, i) => (
             <tr
               key={`${renderLedgerKey(hk.key)}-${i}`}
-              className="border-t border-slate-800/70"
+              className="border-t border-slate-200/70 dark:border-slate-800/70"
             >
-              <td className="px-3 py-2 font-mono text-xs text-slate-200">
+              <td className="px-3 py-2 font-mono text-xs text-slate-800 dark:text-slate-200">
                 {renderLedgerKey(hk.key)}
               </td>
-              <td className="px-3 py-2 text-right text-slate-300">
+              <td className="px-3 py-2 text-right text-slate-700 dark:text-slate-300">
                 {formatCount(hk.reads)}
               </td>
-              <td className="px-3 py-2 text-right font-semibold text-amber-300">
+              <td className="px-3 py-2 text-right font-semibold text-amber-600 dark:text-amber-300">
                 {formatCount(hk.writes)}
               </td>
-              <td className="px-3 py-2 text-right text-slate-300">
+              <td className="px-3 py-2 text-right text-slate-700 dark:text-slate-300">
                 {formatCount(hk.touch_count)}
               </td>
             </tr>
