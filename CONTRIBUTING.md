@@ -22,7 +22,8 @@ npm test
 npm run build
 ```
 
-E2E (optional, needs browser binaries):
+E2E (optional, needs browser binaries). It runs against a mocked API
+(`e2e/mock-api.mjs`) with no real backend:
 
 ```sh
 npx playwright install chromium

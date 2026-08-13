@@ -4,6 +4,10 @@ import { loadLeaderboard } from "@/lib/data";
 import { DEMO_BANNER } from "@/lib/fixtures";
 import { formatRatio } from "@/lib/format";
 
+// The leaderboard reflects live analysis results, so render on demand rather
+// than prerendering at build time (which would also fetch during the build).
+export const dynamic = "force-dynamic";
+
 export default async function LeaderboardPage() {
   // Errors propagate to the route-level error boundary (error.tsx).
   const { data: rows, isDemo } = await loadLeaderboard();
