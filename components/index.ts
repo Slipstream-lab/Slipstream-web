@@ -3,6 +3,8 @@ export { HotKeyTable } from "./HotKeyTable";
 export { FixList } from "./FixList";
 export { ClusterTimeline } from "./ClusterTimeline";
 export { BarMeter } from "./Charts/BarMeter";
+export { ContentionDistribution } from "./Charts/ContentionDistribution";
+export { StageWidth } from "./Charts/StageWidth";
 export { DemoBanner } from "./DemoBanner";
 export { Loading, Skeleton } from "./states/Loading";
 export { ErrorState } from "./states/ErrorState";
