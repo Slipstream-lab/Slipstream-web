@@ -173,10 +173,17 @@ export interface components {
             storage_reads_delta: number;
             storage_writes_delta: number;
         };
+        ComparisonFunctionDelta: {
+            function_name: string;
+            detector_findings_delta: number;
+            storage_reads_delta: number;
+            storage_writes_delta: number;
+        };
         Comparison: {
             leftId: string;
             rightId: string;
             summary: components["schemas"]["ComparisonSummary"];
+            functions: components["schemas"]["ComparisonFunctionDelta"][];
         };
     };
     responses: never;
